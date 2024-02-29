@@ -3,6 +3,12 @@ body {
   font-size: 16px;
 }
 
+label, input{
+display:flex;
+flex-direction:column
+
+}
+
 .swim-lanes {
   min-height: 60vh;
 }
@@ -14,3 +20,5 @@ body {
 .task-card:hover {
   cursor: grab;
 }
+
+

@@ -2,13 +2,22 @@
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
+
 // Todo: create a function to generate a unique task id
+let taskId;
 function generateTaskId() {
+ taskId = Math.floor(Math.random()* 100);
 
 }
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
+ let newDiv = document.createElement("div");
+ let cardHeader = document.createElement("div");
+ let cardBody = document.createElement("div");
+ let taskTitle = document.createElement("p");
+ let taskDue = document.createElement("p");
+ let submitButton = document.createElement("button");
 
 }
 

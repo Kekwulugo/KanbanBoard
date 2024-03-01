@@ -11,6 +11,8 @@ console.log(Array.isArray(taskList));
  let taskDescriptionEl = document.querySelector("#description");
  let dueDateEl = document.querySelector("#due-date");
  let toDoEl = document.querySelector("#todo-cards");
+ let deleteButton = document.getElementsByTagName("a");
+
 
 
 // Done: create a function to generate a unique task id
@@ -20,21 +22,31 @@ function generateTaskId() {
 }
 
 // Done: create a function to create a task card
-function createTaskCard() {
+function createTaskCard(task) {
 
  let newDiv = document.createElement("div");
  newDiv.setAttribute("class","card");
- newDiv.setAttribute("draggable","true")
+ newDiv.setAttribute("class","draggables");
+ newDiv.setAttribute("id", task.id);
+
  let cardBody= document.createElement("div");
- cardBody.setAttribute("class","card-body")
+ cardBody.setAttribute("class","card-body");
+
  let cardTitle = document.createElement("h5");
- cardTitle.setAttribute("class", "card-title")
+ cardTitle.setAttribute("class", "card-title");
+ cardTitle.innerText = task.title;
+
  let taskDescription = document.createElement("p");
- taskDescription.setAttribute("class", "card-text")
+ taskDescription.setAttribute("class", "card-text");
+ taskDescription.innerHTML = task.description;
+
  let taskDue = document.createElement("p");
- taskDue.setAttribute("class", "card-text")
+ taskDue.setAttribute("class", "card-text");
+ taskDue.innerHTML = task.dueDate;
+
  let submitButton = document.createElement("a");
  submitButton.setAttribute("class", "btn btn-primary");
+ submitButton.setAttribute("id", task.id);
  submitButton.innerHTML = "Delete Task";
 
  cardBody.appendChild(cardTitle);
@@ -51,19 +63,19 @@ function createTaskCard() {
 
 }
 
-//Todo: create a function to render the task list and make cards draggable
+//Done: create a function to render the task list and make cards draggable
 function renderTaskList() {
 
  taskList.forEach(element => {
-
-  createTaskCard();
+  
+  createTaskCard(element);
   
  });
 
+ $(".draggables").draggable();
+
 
 }
-
-
 
 //Done: create a function to handle adding a new task
 function handleAddTask(event){
@@ -81,7 +93,7 @@ const id = generateTaskId();
 
 //check if task exist in local storage
 
-if(localStorage.getItem("task") == null){
+if(localStorage.getItem("tasks") == null){
 
  const taskList = [];
  
@@ -89,7 +101,8 @@ if(localStorage.getItem("task") == null){
  id : id,
  title : taskTitle,
  description : taskDescript,
- dueDate : dueDate
+ dueDate : dueDate,
+ status: "to-do"
 
 }
 
@@ -106,38 +119,77 @@ const task = {
  id : id,
  title : taskTitle,
  description : taskDescript,
- dueDate : dueDate
+ dueDate : dueDate,
+ status : "to-do"
 
 }
 
 taskList.push(task);
-localStorage.setItem("taskList",JSON.stringify(taskList));
+localStorage.setItem("tasks",JSON.stringify(taskList));
 
 }
 
 
 renderTaskList();
+taskTitleEl.value = "";
+taskDescriptionEl.value = "";
+dueDateEl.value = "";
+
+
  
 
 }
 
 // Todo: create a function to handle deleting a task
+//Button event listener not working
 function handleDeleteTask(event){
+
+  console.log(filteredList);
+ let deleteID = event.target.id;
+ 
+
+ //remove object from local storage
+ let filteredList = taskList.filter (function (item){
+  return item.id != deleteID;
+
+  
+
+ });
+
+
+ //Add new array to storage
+ localStorage.setItem('tasks',JSON.stringify(filteredList));
+
+
+
+ //render task list 
+ renderTaskList();
+
 
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
-function handleDrop(event, ui) {
 
-}
+$(".droppables").droppable({
+ accept : ".draggables",
+ drop: function (event, ui){
+  $(this).append($(ui-draggable));
+ }
+});
+
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
 
  renderTaskList();
+ addTaskEl.onclick = handleAddTask;
+ deleteButton.onclick = handleDeleteTask;
+
+ $( function() {
+    $( "#due-date" ).datepicker();
+  } );
 
 
 });
 
 
-addTaskEl.onclick = handleAddTask;

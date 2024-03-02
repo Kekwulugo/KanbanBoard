@@ -163,11 +163,15 @@ function handleDeleteTask(event){
 };
 
 // Todo: create a function to handle dropping a task into a new status lane
-function handleDrop (event, ui){
-  //make card body droppable
-  // change get card id and change status to match droppable class
+$(function() {
+    $(".droppable").droppable({
+        drop: function(event, ui) {
+            var droppedItem = ui.draggable;
+            $(this).append(droppedItem);
+        }
+    });
+});
 
-};
 
 
 

@@ -4,12 +4,12 @@ let nextId = JSON.parse(localStorage.getItem("nextId"));
 
 //add variables to reference DOM
  let addTaskEl = document.querySelector("#add-task");
- let taskBtn = document.querySelector("#add-task");
  let taskTitleEl = document.querySelector("#task-title");
  let taskDescriptionEl = document.querySelector("#description");
  let dueDateEl = document.querySelector("#due-date");
  let toDoEl = document.querySelector("#todo-cards");
- let deleteButton = document.getElementsByClassName("btn btn-primary");
+ 
+
  
 
 
@@ -30,7 +30,7 @@ function createTaskCard(task) {
  cardBody.setAttribute("class","card-body");
 
  let cardTitle = document.createElement("h5");
- cardTitle.setAttribute("class", "card-title");
+ cardTitle.setAttribute("class", "card-header");
  cardTitle.innerText = task.title;
 
  let taskDescription = document.createElement("p");
@@ -42,30 +42,35 @@ function createTaskCard(task) {
  taskDue.innerHTML = task.dueDate;
 
  let submitButton = document.createElement("button");
- submitButton.setAttribute("class", "btn btn-primary");
+ submitButton.setAttribute("class", "btn btn-primary delete");
  submitButton.setAttribute("id", task.id);
  submitButton.innerHTML = "Delete Task";
 
- cardBody.appendChild(cardTitle);
+ 
  cardBody.appendChild(taskDue);
  cardBody.appendChild(taskDescription);
  cardBody.appendChild(submitButton);
 
+ newDiv.appendChild(cardTitle);
  newDiv.appendChild(cardBody);
+ 
  toDoEl.appendChild(newDiv);
-
- console.log(newDiv);
-
-
 
 };
 
 //Done: create a function to render the task list and make cards draggable
 function renderTaskList() {
 
- taskList.forEach(element => {
+  const droppables = document.querySelectorAll(".droppables");
+  droppables.forEach(droppable =>{
+    while(droppable.firstChild){
+      droppable.removeChild(droppable.firstChild);
+    }
+  });
   
-  createTaskCard(element);
+  
+  taskList.forEach(element => {
+    createTaskCard(element);
   
  });
 
@@ -135,34 +140,24 @@ taskDescriptionEl.value = "";
 dueDateEl.value = "";
 
 
- 
-
 };
 
-// Todo: create a function to handle deleting a task
-//Button event listener not working
+// Done: create a function to handle deleting a task
 function handleDeleteTask(event){
-
   console.log("Clicked");
- /*let deleteID = event.target.id;
+  let deleteID = event.target.id;
  
-
  //remove object from local storage
- let filteredList = taskList.filter (function (item){
+ taskList = taskList.filter (function (item){
   return item.id != deleteID;
-
-  
-
  });
 
 
  //Add new array to storage
- localStorage.setItem('tasks',JSON.stringify(filteredList));
+ localStorage.setItem('tasks',JSON.stringify(taskList));
+ renderTaskList();
 
-
-
- //render task list 
- renderTaskList();*/
+ 
 
 
 };
@@ -176,20 +171,31 @@ function handleDrop (event, ui){
 
 
 
-// Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
+// Done: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
 
- renderTaskList();
- addTaskEl.onclick = handleAddTask;
- deleteButton.onclick = handleDeleteTask;
 
+  renderTaskList();
 
- $( function() {
-    $( "#due-date" ).datepicker();
-  } );
+    // Add event listener for adding tasks
+    $('#add-task').on('click', handleAddTask);
+
+    // Add event listener for deleting tasks
+    $(document).on('click', '.btn.btn-primary.delete', handleDeleteTask);
+
+    // Initialize datepicker
+    $("#due-date").datepicker();
 
 
 });
+
+
+
+
+
+ 
+
+
 
 
 

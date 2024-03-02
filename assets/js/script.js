@@ -58,13 +58,22 @@ function createTaskCard(task) {
 
 //Done: create a function to render the task list and make cards draggable
 function renderTaskList() {
+
+  const droppables = document.getElementsByClassName("card-body bg-light droppable");
+   let array = [...droppables];
+  
+  array.forEach(droppable =>{
+    while(droppable.firstChild){
+      droppable.removeChild(droppable.firstChild);
+    }
+  });
+
   
     // Iterate over each task and render it in the appropriate lane
     taskList.forEach(function(task) {
         var taskCard = createTaskCard(task);
-        $("#" + task.status).append(taskCard);
+        $("#" + task.status).prepend(taskCard);
     });
-
 
 
  $(".draggables").draggable({
@@ -128,10 +137,11 @@ localStorage.setItem("tasks",JSON.stringify(taskList));
 }
 
 
-renderTaskList();
 taskTitleEl.value = "";
 taskDescriptionEl.value = "";
 dueDateEl.value = "";
+
+renderTaskList();
 
 
 };

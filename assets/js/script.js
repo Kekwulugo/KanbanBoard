@@ -2,8 +2,6 @@
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
-console.log(Array.isArray(taskList));
-
 //add variables to reference DOM
  let addTaskEl = document.querySelector("#add-task");
  let taskBtn = document.querySelector("#add-task");
@@ -25,8 +23,7 @@ function generateTaskId() {
 function createTaskCard(task) {
 
  let newDiv = document.createElement("div");
- newDiv.setAttribute("class","card");
- newDiv.setAttribute("class","draggables");
+ newDiv.setAttribute("class", "card text-bg-light mb-3 draggables");
  newDiv.setAttribute("id", task.id);
 
  let cardBody= document.createElement("div");
@@ -72,7 +69,9 @@ function renderTaskList() {
   
  });
 
- $(".draggables").draggable();
+ $(".draggables").draggable(
+  {revert: true}
+ );
 
 
 }
@@ -169,13 +168,12 @@ function handleDeleteTask(event){
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
+function handleDrop (event, ui){
+  //make card body droppable
+  // change get card id and change status to match droppable class
 
-$(".droppables").droppable({
- accept : ".draggables",
- drop: function (event, ui){
-  $(this).append($(ui-draggable));
- }
-});
+}
+
 
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker

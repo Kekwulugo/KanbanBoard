@@ -9,15 +9,15 @@ let nextId = JSON.parse(localStorage.getItem("nextId"));
  let taskDescriptionEl = document.querySelector("#description");
  let dueDateEl = document.querySelector("#due-date");
  let toDoEl = document.querySelector("#todo-cards");
- let deleteButton = document.getElementsByTagName("a");
-
+ let deleteButton = document.getElementsByClassName("btn btn-primary");
+ 
 
 
 // Done: create a function to generate a unique task id
 function generateTaskId() {
  return Math.floor(Math.random()* 100);
 
-}
+};
 
 // Done: create a function to create a task card
 function createTaskCard(task) {
@@ -41,7 +41,7 @@ function createTaskCard(task) {
  taskDue.setAttribute("class", "card-text");
  taskDue.innerHTML = task.dueDate;
 
- let submitButton = document.createElement("a");
+ let submitButton = document.createElement("button");
  submitButton.setAttribute("class", "btn btn-primary");
  submitButton.setAttribute("id", task.id);
  submitButton.innerHTML = "Delete Task";
@@ -58,7 +58,7 @@ function createTaskCard(task) {
 
 
 
-}
+};
 
 //Done: create a function to render the task list and make cards draggable
 function renderTaskList() {
@@ -74,7 +74,7 @@ function renderTaskList() {
  );
 
 
-}
+};
 
 //Done: create a function to handle adding a new task
 function handleAddTask(event){
@@ -137,14 +137,14 @@ dueDateEl.value = "";
 
  
 
-}
+};
 
 // Todo: create a function to handle deleting a task
 //Button event listener not working
 function handleDeleteTask(event){
 
-  console.log(filteredList);
- let deleteID = event.target.id;
+  console.log("Clicked");
+ /*let deleteID = event.target.id;
  
 
  //remove object from local storage
@@ -162,17 +162,17 @@ function handleDeleteTask(event){
 
 
  //render task list 
- renderTaskList();
+ renderTaskList();*/
 
 
-}
+};
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop (event, ui){
   //make card body droppable
   // change get card id and change status to match droppable class
 
-}
+};
 
 
 
@@ -183,11 +183,17 @@ $(document).ready(function () {
  addTaskEl.onclick = handleAddTask;
  deleteButton.onclick = handleDeleteTask;
 
+
  $( function() {
     $( "#due-date" ).datepicker();
   } );
 
 
 });
+
+
+
+
+
 
 

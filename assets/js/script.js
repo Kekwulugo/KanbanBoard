@@ -1,5 +1,5 @@
 // Retrieve tasks and nextId from localStorage
-let taskList = JSON.parse(localStorage.getItem("tasks"));
+taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
 //add variables to reference DOM
@@ -67,20 +67,24 @@ function renderTaskList() {
       droppable.removeChild(droppable.firstChild);
     }
   });
-
   
     // Iterate over each task and render it in the appropriate lane
+
+    if(taskList === null){
+      console.log("null list");
+  } else {
+
     taskList.forEach(function(task) {
         var taskCard = createTaskCard(task);
         $("#" + task.status).prepend(taskCard);
     });
 
-
- $(".draggables").draggable({
+    $(".draggables").draggable({
   revert: true,
   zIndex: 1000
 });
-
+    
+  }
 
 };
 

@@ -9,7 +9,7 @@ Project link : https://kekwulugo.github.io/KanbanBoard/
 ## Usage and Technology Used
 This app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery.
 
-!Kanban.png
+![alt test](Kanban.png)
 
 
 ## User Story

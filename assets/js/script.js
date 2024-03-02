@@ -11,8 +11,6 @@ let nextId = JSON.parse(localStorage.getItem("nextId"));
  
 
  
-
-
 // Done: create a function to generate a unique task id
 function generateTaskId() {
  return Math.floor(Math.random()* 100);
@@ -53,30 +51,26 @@ function createTaskCard(task) {
 
  newDiv.appendChild(cardTitle);
  newDiv.appendChild(cardBody);
- 
- toDoEl.appendChild(newDiv);
+
+ return newDiv;
 
 };
 
 //Done: create a function to render the task list and make cards draggable
 function renderTaskList() {
+  
+    // Iterate over each task and render it in the appropriate lane
+    taskList.forEach(function(task) {
+        var taskCard = createTaskCard(task);
+        $("#" + task.status).append(taskCard);
+    });
 
-  const droppables = document.querySelectorAll(".droppables");
-  droppables.forEach(droppable =>{
-    while(droppable.firstChild){
-      droppable.removeChild(droppable.firstChild);
-    }
-  });
-  
-  
-  taskList.forEach(element => {
-    createTaskCard(element);
-  
- });
 
- $(".draggables").draggable(
-  {revert: true}
- );
+
+ $(".draggables").draggable({
+  revert: true,
+  zIndex: 1000
+});
 
 
 };
@@ -155,9 +149,8 @@ function handleDeleteTask(event){
 
  //Add new array to storage
  localStorage.setItem('tasks',JSON.stringify(taskList));
- renderTaskList();
 
- 
+ renderTaskList();
 
 
 };
@@ -167,12 +160,32 @@ $(function() {
     $(".droppable").droppable({
         drop: function(event, ui) {
             var droppedItem = ui.draggable;
+            var taskId = droppedItem.attr("id");
+            var newStatus = $ (this).attr("id");
+
+            updateCardStatus(taskId,newStatus);
+
             $(this).append(droppedItem);
         }
     });
+
 });
 
+//Done: update Card status when dropped into new lane
+function updateCardStatus(taskId,newStatus) {
+  
+    
+    // Update the task status in the taskList array
+    taskList.forEach(function(task) {
+        if (task.id == taskId) {
+            task.status = newStatus;
+            
+        }
+    });
 
+    // Update the taskList array in local storage
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+}
 
 
 // Done: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker

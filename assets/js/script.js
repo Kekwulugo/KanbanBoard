@@ -181,6 +181,7 @@ $(function() {
             updateCardStatus(taskId,newStatus);
 
             $(this).append(droppedItem);
+            
         }
     });
 
